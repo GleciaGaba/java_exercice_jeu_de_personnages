@@ -20,4 +20,9 @@ public class Sorcier extends Mage {
     public Sorcier() {
     }
 
+    public String fiche() {
+        return super.fiche()
+                + "\nArmure: " + this.magieNoire;
+    }
+
 }

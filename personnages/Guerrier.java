@@ -24,4 +24,9 @@ public class Guerrier extends Personnage {
 
         }
     }
+
+    public String fiche() {
+        return super.fiche()
+                + "\nArmure: " + this.armure;
+    }
 }

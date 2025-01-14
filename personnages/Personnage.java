@@ -1,6 +1,6 @@
 package personnages;
 
-public class Personnage {
+public abstract class Personnage {
     private String nom;
     private String metier;
     private int force;
@@ -61,12 +61,16 @@ public class Personnage {
 
     }
 
-    public void fiche() {
-        System.out.println("Fiche Personnage");
-        System.out.println("Nom: " + this.nom);
-        System.out.println("Métier: " + this.metier);
-        System.out.println("Points de force: " + this.force);
-        System.out.println("Points de vie: " + this.vie);
+    public String fiche() {
+        return "Fiche Personnage\n"
+                + "Nom: " + this.nom + "\n"
+                + "Métier: " + this.metier + "\n"
+                + "Points de force: " + this.force + "\n"
+                + "Points de vie: " + this.vie;
+    }
+
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 
     public void setNom(String nom) {
@@ -89,9 +93,21 @@ public class Personnage {
         return vie;
     }
 
-    @Override
-    public String toString() {
-        return "Personage [nom=" + nom + ", metier=" + metier + ", force=" + force + ", vie=" + vie + "]";
-    }
+    /**
+     * Méthodes abstraites
+     * 
+     * les classes ABSTRAITES ne peuvent pas être instanciées (on ne peut pas créer
+     * utiliser le mot clé new suivi du constructeur).
+     * 
+     * On peut définir des méthodes abstraites UNIQUEMENT dans une classe
+     * abstraite.(mais ce n'est pas obligatoire).
+     * Si une classe non abstraite hérite d'une classe abstraite, elle doit
+     * implémenter
+     * toutes les méthodes abstraites de la classe mère.
+     */
+
+    public abstract void esquiver();
+
+    public abstract boolean esquiver(int degats);
 
 }
