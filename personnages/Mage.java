@@ -1,55 +1,58 @@
 package personnages;
 
+import outils.Fonctions;
+
 public class Mage extends Personnage {
 
-    private int mana;
+	private int mana;
 
-    @Override
-    public void esquiver() {
-    }
+	public Mage(String name, String type, int level, int health) {
 
-    /**
-     * Une annotation est une information ajouté au code.
-     * Une annotation commence par le caractère @.
-     * L'annotation @Override permet de préciser que la méthode qui suit est une
-     * redéfinition d'une méthode du parent.
-     */
+		super(name, type, level, health);
 
-    @Override
-    public boolean esquiver(int degats) {
-        int nbAleatoire = (int) (Math.random() * 10 + 1);
-        return nbAleatoire == 1;
-    }
+	}
 
-    public int getMana() {
-        return mana;
-    }
+	public Mage() {
+		// TODO Auto-generated constructor stub
+	}
 
-    public void setMana(int mana) {
-        this.mana = mana;
-    }
+	public Mage(String nom, int force, int vie) { // Appelle 2eme constructeur de Personnage
+		super(nom, force, vie);
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * EXO: ajouter 2 constructeurs pour Mage: un avec toutes les propriétés du Mage
-     * et un constructeur sans la propriété metier (plus le construteur par défault)
-     */
+	public Mage(String nom, String metier, int force, int vie, int mana) { // Appelle 3eme constructeur
+																			// de Personnage
+		super(nom, metier, force, vie);
+		this.mana = mana;
+		// TODO Auto-generated constructor stub
+	}
 
-    public Mage(String nom, String metier, int force, int vie, int mana) {
-        super(nom, metier, force, vie);
-        this.mana = mana;
-    }
+	public int getMana() {
+		return mana;
+	}
 
-    public Mage(String nom, int force, int vie, int mana) {
-        super(nom, force, vie);
-        this.mana = mana;
-    }
+	public void setMana(int mana) {
+		this.mana = mana;
+	}
 
-    public Mage() {
-    }
+	public void attaqueMagique(Personnage cible) {
+		cible.setVie(cible.getVie() - this.mana);
+	}
 
-    public String fiche() {
-        return super.fiche()
-                + "\nArmure: " + this.mana;
-    }
+	public String fiche() {
+		return super.fiche()
+				+ "\nPoint de mana : " + this.getMana();
+	}
 
+	@Override
+	public void esquiver() {
+
+	};
+
+	@Override
+	public boolean esquiver(int dgts) {
+		int nbAleatoire = Fonctions.aleatoire(1, 10);
+		return nbAleatoire == 1;
+	};
 }

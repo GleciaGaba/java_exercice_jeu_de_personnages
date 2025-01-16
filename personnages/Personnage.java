@@ -1,113 +1,156 @@
 package personnages;
 
+import personnages.categories.Race;
+
 public abstract class Personnage {
-    private String nom;
-    private String metier;
-    private int force;
-    private int vie;
+	public final int FORCE_MAX = 20;
+	public final int FORCE_MIN = 1;
+	private String nom;
+	private String metier;
+	private int force;
+	protected int vie; // Accessible dans le package (par toute les classe du même package) -> dans le
+						// main personnage.vie ne devrait pas fonctionner.
+	private Race race;
 
-    /**
-     * Dès que on définit un construteur dans une classe, le construteur par défault
-     * (sans argument)
-     * n'est plus accessible.
-     * Pour le rendre accessible, il faut le définir explicitement.
-     */
+	private String status = "En vie";
 
-    public Personnage() {
-    }
+	/**
+	 * Clonage: permet de créer une copie d'un objet
+	 * 
+	 * @throws CloneNotSupportedException
+	 */
 
-    /**
-     * Dans une classe, on peut avoir plusieurs méthodes avec le m^me nom. On
-     * appelle ça, la SURCHARGE (overloading).
-     * 
-     * @param nom
-     * @param metier
-     * @param force
-     * @param vie
-     */
-    public Personnage(String nom, String metier, int force, int vie) {
-        this.nom = nom;
-        this.metier = metier;
-        this.force = force;
-        this.vie = vie;
-    }
+	public Personnage clone() throws CloneNotSupportedException {
 
-    /**
-     * Dans une classe, on peut avoir plusieurs méthodes avec le m^me nom. On
-     * appelle ça, la SURCHARGE (overloading).
-     * 
-     * @param nom
-     * @param metier
-     * @param force
-     * @param vie
-     */
-    public Personnage(String nom, int force, String metier, int vie) {
-        this.nom = nom;
-        this.metier = metier;
-        this.force = force;
-        this.vie = vie;
-    }
+		return (Personnage) super.clone();
 
-    public Personnage(String nom, int force, int vie) {
-        this.nom = nom;
-        this.force = force;
-        this.vie = vie;
-    }
+	}
 
-    public void attaque(Personnage cible) {
-        // EXO: les points de vie de la cible vont être diminué des points de force de
-        // l'attaquant(this)
-        cible.setVie(cible.getVie() - this.force);
+	/**
+	 * Un constructeur est une méthode qui permet de 'constuire' (= instancier) un
+	 * objet d'une classe.
+	 * Le constructeur est appelé avec le mot-clé new.
+	 * Il n'y a pas de type de retour dans la définition (=signature) de la méthode.
+	 * Le nom du constructeur est le nom de la classe.
+	 * 
+	 * @param nom
+	 * @param metier
+	 * @param force
+	 * @param vie
+	 * 
+	 */
+	public Personnage() {
+		// TODO Auto-generated constructor stub
+	}
 
-    }
+	public Personnage(String nom, String metier, int force, int vie) {
+		this.nom = nom;
+		this.metier = metier;
+		this.force = force;
+		this.vie = vie;
 
-    public String fiche() {
-        return "Fiche Personnage\n"
-                + "Nom: " + this.nom + "\n"
-                + "Métier: " + this.metier + "\n"
-                + "Points de force: " + this.force + "\n"
-                + "Points de vie: " + this.vie;
-    }
+	}
 
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
+	// Surcharge : un 2ème constructeur avec des paramètres différent METIER et
+	// STATUS sont exclus
+	public Personnage(String nom, int force, int vie) {
+		this.nom = nom;
+		this.force = force;
+		this.vie = vie;
+	}
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+	public String getNom() {
+		return nom;
+	}
 
-    public void setMetier(String metier) {
-        this.metier = metier;
-    }
+	/**
+	 * Si une méthode peut lancer une exception, dans le corps de la méthode, il
+	 * faut:
+	 * - soit capturer l'exception et la gérer (avec un bloc try catch)
+	 * - soit définir que la méthode peut lancer une exception(avec throws)
+	 * 
+	 * @param nom
+	 * @throws Exception
+	 */
 
-    public void setForce(int force) {
-        this.force = force;
-    }
+	public void setNom(String nom) throws Exception {
+		if (nom != "") {
+			this.nom = nom;
+		} else {
+			throw new Exception("Le nom du personage ne peut pas être vide!");
+		}
 
-    public void setVie(int vie) {
-        this.vie = vie;
-    }
+	}
 
-    public int getVie() {
-        return vie;
-    }
+	public String getMetier() {
+		return metier;
+	}
 
-    /**
-     * Méthodes abstraites
-     * 
-     * les classes ABSTRAITES ne peuvent pas être instanciées (on ne peut pas créer
-     * utiliser le mot clé new suivi du constructeur).
-     * 
-     * On peut définir des méthodes abstraites UNIQUEMENT dans une classe
-     * abstraite.(mais ce n'est pas obligatoire).
-     * Si une classe non abstraite hérite d'une classe abstraite, elle doit
-     * implémenter
-     * toutes les méthodes abstraites de la classe mère.
-     */
+	public void setMetier(String metier) {
+		if (force >= FORCE_MAX) {
+			this.force = FORCE_MAX;
+		} else if (force <= FORCE_MIN) {
+			this.force = FORCE_MIN;
+		}
 
-    public abstract void esquiver();
+	}
 
-    public abstract boolean esquiver(int degats);
+	public int getForce() {
+		return force;
+	}
+
+	public void setForce(int force) {
+		this.force = force;
+	}
+
+	public int getVie() {
+		return vie;
+	}
+
+	public void setVie(int vie) {
+		this.vie = vie;
+		if (this.vie <= 0) {
+			this.vie = 0;
+			this.status = "Mort";
+		}
+	}
+
+	public Race getRace() {
+		return race;
+	}
+
+	public void setRace(Race humain) {
+		this.race = humain;
+	}
+
+	public void attaque(Personnage gandalf) {
+		gandalf.setVie(gandalf.getVie() - this.force);
+	}
+
+	public String fiche() {
+
+		return """
+				\nFiche personnage
+				-----------------------
+				"""
+				+ "\nNom : " + this.nom
+				+ "\nMétier : " + this.metier
+				+ "\nPoints de forces : " + this.force
+				+ "\nPoints de vie : " + this.vie
+				+ "\nStatus : " + this.status;
+	}
+
+	/**
+	 * Méthode abstraite, à implémenter dans les enfants de personnage.
+	 * 
+	 */
+	public abstract void esquiver();
+
+	public abstract boolean esquiver(int degats);
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 
 }
